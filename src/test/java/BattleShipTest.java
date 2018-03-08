@@ -29,12 +29,11 @@ public class BattleShipTest extends AbstractTest {
         battleShipPage.gotoBattleShipPage();
         coordinates.forEach(letter -> {
                     for (int i = 1; i <= 10; i++) {
-                        battleShipPage.enterCoordinate(letter + i);
-                        battleShipPage.clickSubmitButton();
-                        battleShipPage.verifyMessage();
+                        battleShipPage.hitCoordinateAndCheckMessage(letter + i);
                     }
                 }
         );
+
     }
 
     @Test
@@ -43,6 +42,8 @@ public class BattleShipTest extends AbstractTest {
         battleShipPage.enterCoordinate("show");
         battleShipPage.clickSubmitButton();
         Assertions.assertThat(battleShipPage.getTableText()).as("Table").contains("x");
+        Counter.countAll(battleShipPage.getTableText());
+        Assertions.assertThat(Counter.hitCount).as("HIT COUNT").isEqualTo(13);
     }
 
     @Test
@@ -50,7 +51,9 @@ public class BattleShipTest extends AbstractTest {
         battleShipPage.gotoBattleShipPage();
         battleShipPage.enterCoordinate("reset");
         battleShipPage.clickSubmitButton();
-        battleShipPage.getTableText();
+        Counter.countAll(battleShipPage.getTableText());
+        Assertions.assertThat(Counter.hitCount).as("HIT COUNT").isEqualTo(0);
+        Assertions.assertThat(Counter.missCount).as("MISS COUNT").isEqualTo(0);
     }
 
 

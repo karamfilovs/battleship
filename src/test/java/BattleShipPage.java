@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,12 +33,10 @@ public class BattleShipPage {
     }
 
     public void enterCoordinate(String coordinate) {
-        if (isElementPresent(coordinatesLocator)) {
-            coordinatesField.clear();
-            LOGGER.info("Enter coordinate:" + coordinate);
-            coordinatesField.sendKeys(coordinate);
-            sleep(SLEEP_TIME);
-        }
+        coordinatesField.clear();
+        LOGGER.info("Enter coordinate:" + coordinate);
+        coordinatesField.sendKeys(coordinate);
+        sleep(SLEEP_TIME);
     }
 
     public void clickSubmitButton() {
@@ -61,14 +60,8 @@ public class BattleShipPage {
     }
 
     public String getTableText() {
-        if(isElementPresent(tableLocator)){
-            LOGGER.info("Text found in table is:" + table.getText());
-            return table.getText();
-        } else {
-            return "";
-        }
-
-
+        LOGGER.info("Text found in table is:" + table.getText());
+        return table.getText();
     }
 
     public boolean isElementPresent(By by) {
@@ -79,6 +72,12 @@ public class BattleShipPage {
             LOGGER.error(exception.getLocalizedMessage());
             return false;
         }
+    }
+
+    public void hitCoordinateAndCheckMessage(String coordinate){
+        enterCoordinate(coordinate);
+        clickSubmitButton();
+        verifyMessage();
     }
 
     public void verifyMessage() {
@@ -92,13 +91,6 @@ public class BattleShipPage {
             Assertions.assertThat(tableText).as("MISS").containsIgnoringCase("Miss");
         } else {
             Assertions.assertThat(true).as("HIT/SUNK").isEqualTo(tableText.contains("Hit") || tableText.contains("Sunk"));
-        }
-        if (previousHitCount == Counter.hitCount && previousMissCount == Counter.missCount) {
-            try {
-                throw new Exception("None of the counters was changed");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 }
