@@ -16,7 +16,7 @@ public class BattleShipTest extends AbstractTest {
     }
 
     @Test
-    public void gotoPageEnterCoordinate() {
+    public void canHitCoordinate() {
         battleShipPage.gotoBattleShipPage();
         battleShipPage.enterCoordinate("B5");
         battleShipPage.clickSubmitButton();
