@@ -1,20 +1,15 @@
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 import java.util.concurrent.TimeUnit;
 
-public class AbstractTest
-{
+public class AbstractTest {
     public static WebDriver driver = null;
 
 
-    @BeforeMethod(alwaysRun = true)
-    public void initialize() {
+    public void startBrowser() {
         System.setProperty("webdriver.chrome.driver", "C:\\webdrivers\\chromedriver.exe");
         driver = new ChromeDriver();
         //To maximize browser
@@ -25,7 +20,7 @@ public class AbstractTest
 
     @AfterMethod(alwaysRun = true)
     public void teardownTest() {
-        AbstractTest.driver.quit();
+        driver.quit();
     }
 
 }
