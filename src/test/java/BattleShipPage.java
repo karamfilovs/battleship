@@ -1,4 +1,6 @@
+import org.fest.assertions.Assertions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 public class BattleShipPage {
     private WebDriver driver;
-    private static final int SLEEP_TIME = 1;
+    private static final int SLEEP_TIME = 0;
     private static final String PAGE_URL = "http://www.techhuddle.com/tests/battleships/v4test/index.php";
     private static final Logger LOGGER = LoggerFactory.getLogger(BattleShipPage.class);
 
@@ -22,15 +24,20 @@ public class BattleShipPage {
     @FindBy(how = How.TAG_NAME, using = "pre")
     private WebElement table;
 
+    By coordinatesLocator = By.xpath("//input[@type='submit']");
+    By tableLocator = By.tagName("pre");
+
     public BattleShipPage(WebDriver driver) {
         this.driver = driver;
     }
 
     public void enterCoordinate(String coordinate) {
-        coordinatesField.clear();
-       LOGGER.info("Enter coordinate:" + coordinate);
-        coordinatesField.sendKeys(coordinate);
-        sleep(SLEEP_TIME);
+        if (isElementPresent(coordinatesLocator)) {
+            coordinatesField.clear();
+            LOGGER.info("Enter coordinate:" + coordinate);
+            coordinatesField.sendKeys(coordinate);
+            sleep(SLEEP_TIME);
+        }
     }
 
     public void clickSubmitButton() {
@@ -46,7 +53,7 @@ public class BattleShipPage {
 
     private void sleep(int seconds) {
         try {
-            LOGGER.info("Sleeping for:"+seconds + " seconds");
+            LOGGER.info("Sleeping for:" + seconds + " seconds");
             Thread.sleep(seconds * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -54,7 +61,44 @@ public class BattleShipPage {
     }
 
     public String getTableText() {
-        LOGGER.info("Text found in table is:" + table.getText());
-        return table.getText();
+        if(isElementPresent(tableLocator)){
+            LOGGER.info("Text found in table is:" + table.getText());
+            return table.getText();
+        } else {
+            return "";
+        }
+
+
+    }
+
+    public boolean isElementPresent(By by) {
+        try {
+            driver.findElement(by);
+            return true;
+        } catch (NoSuchElementException exception) {
+            LOGGER.error(exception.getLocalizedMessage());
+            return false;
+        }
+    }
+
+    public void verifyMessage() {
+        String tableText = getTableText();
+        int previousHitCount = Counter.hitCount;
+        int previousMissCount = Counter.missCount;
+        LOGGER.info("Previous HIT Count:" + previousHitCount);
+        LOGGER.info("Previous MISS Count:" + previousMissCount);
+        Counter.countAll(tableText);
+        if (Counter.missCount > previousMissCount) {
+            Assertions.assertThat(tableText).as("MISS").containsIgnoringCase("Miss");
+        } else {
+            Assertions.assertThat(true).as("HIT/SUNK").isEqualTo(tableText.contains("Hit") || tableText.contains("Sunk"));
+        }
+        if (previousHitCount == Counter.hitCount && previousMissCount == Counter.missCount) {
+            try {
+                throw new Exception("None of the counters was changed");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

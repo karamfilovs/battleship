@@ -1,6 +1,4 @@
 import org.fest.assertions.Assertions;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -22,7 +20,7 @@ public class BattleShipTest extends AbstractTest {
         battleShipPage.gotoBattleShipPage();
         battleShipPage.enterCoordinate("B5");
         battleShipPage.clickSubmitButton();
-        battleShipPage.getTableText();
+        battleShipPage.verifyMessage();
     }
 
     @Test
@@ -33,7 +31,7 @@ public class BattleShipTest extends AbstractTest {
                     for (int i = 1; i <= 10; i++) {
                         battleShipPage.enterCoordinate(letter + i);
                         battleShipPage.clickSubmitButton();
-                        battleShipPage.getTableText();
+                        battleShipPage.verifyMessage();
                     }
                 }
         );

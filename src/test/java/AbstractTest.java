@@ -14,6 +14,7 @@ public class AbstractTest {
         driver = new ChromeDriver();
         //To maximize browser
         driver.manage().window().maximize();
+        driver.manage().deleteAllCookies();
         //Implicit wait
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
