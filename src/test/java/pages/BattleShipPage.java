@@ -10,12 +10,12 @@ import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.PageAction;
-import util.Pages;
 
 
 public class BattleShipPage {
     private PageAction action;
     private static final int SLEEP_TIME = 0;
+    private static final String PAGE_URL = "http://www.techhuddle.com/tests/battleships/v4test/index.php";
     private static final Logger LOGGER = LoggerFactory.getLogger(BattleShipPage.class);
 
     @FindBy(how = How.NAME, using = "coord")
@@ -44,7 +44,7 @@ public class BattleShipPage {
     }
 
     public void gotoPage() {
-        action.gotoPage(Pages.BATTLESHIPS_URL.getPath(), "");
+        action.gotoPage(PAGE_URL, "");
     }
 
     private void sleep(int seconds) {
