@@ -1,3 +1,5 @@
+package battleship;
+
 import org.fest.assertions.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -5,15 +7,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import util.PageAction;
+import util.Pages;
 
 
 public class BattleShipPage {
-    private WebDriver driver;
+    private PageAction action;
     private static final int SLEEP_TIME = 0;
-    private static final String PAGE_URL = "http://www.techhuddle.com/tests/battleships/v4test/index.php";
     private static final Logger LOGGER = LoggerFactory.getLogger(BattleShipPage.class);
 
     @FindBy(how = How.NAME, using = "coord")
@@ -29,25 +32,20 @@ public class BattleShipPage {
     By tableLocator = By.tagName("pre");
 
     public BattleShipPage(WebDriver driver) {
-        this.driver = driver;
+        PageFactory.initElements(driver, this);
+        action = new PageAction(driver);
     }
 
     public void enterCoordinate(String coordinate) {
-        coordinatesField.clear();
-        LOGGER.info("Enter coordinate:" + coordinate);
-        coordinatesField.sendKeys(coordinate);
-        sleep(SLEEP_TIME);
+        action.typeText(coordinatesField, coordinate);
     }
 
     public void clickSubmitButton() {
-        LOGGER.info("Clicking SUBMIT button:");
-        submitButton.click();
-        sleep(SLEEP_TIME);
+       action.clickButton(submitButton);
     }
 
-    public void gotoBattleShipPage() {
-        LOGGER.info("Navigate to page:" + PAGE_URL);
-        driver.navigate().to(PAGE_URL);
+    public void gotoPage() {
+        action.gotoPage(Pages.BATTLESHIPS_URL.getPath(), "");
     }
 
     private void sleep(int seconds) {
@@ -60,19 +58,9 @@ public class BattleShipPage {
     }
 
     public String getTableText() {
-        LOGGER.info("Text found in table is:" + table.getText());
-        return table.getText();
+        return action.getText(table);
     }
 
-    public boolean isElementPresent(By by) {
-        try {
-            driver.findElement(by);
-            return true;
-        } catch (NoSuchElementException exception) {
-            LOGGER.error(exception.getLocalizedMessage());
-            return false;
-        }
-    }
 
     public void hitCoordinateAndCheckMessage(String coordinate){
         enterCoordinate(coordinate);

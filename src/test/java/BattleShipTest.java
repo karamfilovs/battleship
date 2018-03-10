@@ -1,23 +1,22 @@
+import battleship.BattleShipPage;
+import battleship.Counter;
+import com.google.common.collect.Lists;
 import org.fest.assertions.Assertions;
+import org.junit.Before;
+import org.junit.Test;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import org.testng.collections.Lists;
+
 
 import java.util.List;
 
-public class BattleShipTest extends AbstractTest {
+public class BattleShipTest  {
     private BattleShipPage battleShipPage;
 
-    @BeforeMethod
-    public void beforeTest() {
-        startBrowser();
-        battleShipPage = PageFactory.initElements(driver, BattleShipPage.class);
-    }
+
 
     @Test
     public void canHitCoordinate() {
-        battleShipPage.gotoBattleShipPage();
+        battleShipPage.gotoPage();
         battleShipPage.enterCoordinate("B5");
         battleShipPage.clickSubmitButton();
         battleShipPage.verifyMessage();
@@ -26,7 +25,7 @@ public class BattleShipTest extends AbstractTest {
     @Test
     public void hitAllBattleShips() {
         List<String> coordinates = Lists.newArrayList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J");
-        battleShipPage.gotoBattleShipPage();
+        battleShipPage.gotoPage();
         coordinates.forEach(letter -> {
                     for (int i = 1; i <= 10; i++) {
                         battleShipPage.hitCoordinateAndCheckMessage(letter + i);
@@ -38,7 +37,7 @@ public class BattleShipTest extends AbstractTest {
 
     @Test
     public void showBattleShips() {
-        battleShipPage.gotoBattleShipPage();
+        battleShipPage.gotoPage();
         battleShipPage.enterCoordinate("show");
         battleShipPage.clickSubmitButton();
         Assertions.assertThat(battleShipPage.getTableText()).as("Table").contains("x");
@@ -48,7 +47,7 @@ public class BattleShipTest extends AbstractTest {
 
     @Test
     public void resetGame() {
-        battleShipPage.gotoBattleShipPage();
+        battleShipPage.gotoPage();
         battleShipPage.enterCoordinate("reset");
         battleShipPage.clickSubmitButton();
         Counter.countAll(battleShipPage.getTableText());
