@@ -1,8 +1,7 @@
-package battleship;
+package pages;
 
 import org.fest.assertions.Assertions;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

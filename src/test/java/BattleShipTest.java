@@ -1,10 +1,8 @@
-import battleship.BattleShipPage;
-import battleship.Counter;
+import pages.BattleShipPage;
+import pages.Counter;
 import com.google.common.collect.Lists;
 import org.fest.assertions.Assertions;
-import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.support.PageFactory;
 
 
 import java.util.List;
