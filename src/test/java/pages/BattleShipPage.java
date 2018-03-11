@@ -61,7 +61,7 @@ public class BattleShipPage {
     }
 
 
-    public void hitCoordinateAndCheckMessage(String coordinate){
+    public void hitCoordinate(String coordinate){
         enterCoordinate(coordinate);
         clickSubmitButton();
         verifyMessage();
