@@ -13,6 +13,8 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pages.BattleShipPage;
@@ -24,18 +26,48 @@ import java.util.concurrent.TimeUnit;
 
 public class BattleShipStepDefinitions {
     public static final Logger LOGGER = LoggerFactory.getLogger(BattleShipStepDefinitions.class);
+    //Drivers location
+    private static final String chromeDriverLocation = "C:\\webdrivers\\chromedriver.exe";
+    private static final String firefoxDriverLocation = "C:\\webdrivers\\geckodriver.exe";
+    private static final String ieDriverLocation = "C:\\webdrivers\\IEDriverServer.exe";
+    private static final String chromeProperty = "webdriver.chrome.driver";
+    private static final String firefoxProperty = "webdriver.gecko.driver";
+    private static final String ieProperty = "webdriver.ie.driver";
 
     BattleShipPage battleShipPage;
     WebDriver driver;
 
 
+    private void startBrowser(String browser) {
+        if (browser.equalsIgnoreCase("firefox")) {
+            System.setProperty(firefoxProperty, firefoxDriverLocation);
+            driver = new FirefoxDriver();
+            configureBrowser(browser);
+        }
+        if (browser.equalsIgnoreCase("chrome")) {
+            System.setProperty(chromeProperty, chromeDriverLocation);
+            driver = new ChromeDriver();
+            configureBrowser(browser);
+        }
+        if (browser.equalsIgnoreCase("ie")) {
+            System.setProperty(ieProperty, ieDriverLocation);
+            driver = new InternetExplorerDriver();
+            configureBrowser(browser);
+        }
+
+    }
+
+    private void configureBrowser(String browser) {
+        LOGGER.info("Starting browser:" + browser);
+        driver.manage().deleteAllCookies(); //delete cookies
+        driver.manage().window().maximize(); //To maximize browser
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);   //Implicit wait
+    }
+
+
     @Before
     public void before() {
-        System.setProperty("webdriver.chrome.driver", "C:\\webdrivers\\chromedriver.exe");
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.manage().deleteAllCookies();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        startBrowser("firefox");
     }
 
     @After
