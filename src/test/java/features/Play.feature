@@ -1,6 +1,7 @@
-@test
+
 Feature: Battleships tests http://www.techhuddle.com/tests/battleships/v4test/index.php
 
+  @dev
   Scenario: Hit coordinate
     Given user is on BattleShips Page
     When I enter coordinate:"A5"
