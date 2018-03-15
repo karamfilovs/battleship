@@ -71,7 +71,7 @@ public class BattleShipPage {
 
     private void wait(int seconds) {
         try {
-            Thread.sleep(seconds * 1000);
+            Thread.sleep(seconds * 1000); //Dummy sleep to observe reply easier
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -79,7 +79,6 @@ public class BattleShipPage {
 
     public void verifyMessage() {
         Counter counter = new Counter(beforeSubmitText);
-        wait(SLEEP_TIME);
         int previousHitCount = counter.getHitCount();
         int previousMissCount = counter.getMissCount();
         counter = new Counter(getTableText());

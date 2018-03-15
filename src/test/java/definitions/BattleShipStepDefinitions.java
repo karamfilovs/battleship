@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class BattleShipStepDefinitions {
+    //Browser settings
     public static final Logger LOGGER = LoggerFactory.getLogger(BattleShipStepDefinitions.class);
-    //Drivers location
     private static final String chromeDriverLocation = "C:\\webdrivers\\chromedriver.exe";
     private static final String firefoxDriverLocation = "C:\\webdrivers\\geckodriver.exe";
     private static final String ieDriverLocation = "C:\\webdrivers\\IEDriverServer.exe";
@@ -61,7 +61,7 @@ public class BattleShipStepDefinitions {
 
     private void configureBrowser(String browser) {
         LOGGER.info("Starting browser:" + browser);
-        //driver.manage().deleteAllCookies(); //delete cookies
+        driver.manage().deleteAllCookies(); //delete cookies
         driver.manage().window().maximize(); //To maximize browser
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);   //Implicit wait
     }
@@ -70,7 +70,7 @@ public class BattleShipStepDefinitions {
     @Before
     public void before() {
         startBrowser("chrome");
-    }
+    } //Current browser in use
 
     @After
     public void after(Scenario scenario) {
@@ -79,7 +79,7 @@ public class BattleShipStepDefinitions {
                 TakesScreenshot screenshot = (TakesScreenshot) driver;
                 File src = screenshot.getScreenshotAs(OutputType.FILE); //capture screenshot
                 String fileName = scenario.getName() + ".png";
-                FileUtils.copyFile(src, new File("E:\\screenshots\\" + fileName)); //copy file to location
+                FileUtils.copyFile(src, new File("E:\\screenshots\\" + fileName)); //Image is stored here if test fails
                 LOGGER.info("Successfully captured a screenshot");
                 LOGGER.info("Stored image:" + fileName + " at:" + "E:\\screenshots\\");
             } catch (Exception e) {

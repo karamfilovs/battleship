@@ -83,11 +83,7 @@ public class PageAction {
         LOGGER.info("Checking: " + info);
         Assertions.assertThat(actual).as(info).isEqualToIgnoringCase(expected);
     }
-
-    public void printInfo(String info) {
-        LOGGER.info(info);
-    }
-
+    
 
     public String getValueAttribute(WebElement element) {
         Validate.notNull(element, "Element should not be null");
