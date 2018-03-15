@@ -17,6 +17,7 @@ public class BattleShipPage {
     private static final int SLEEP_TIME = 0;
     private static final String PAGE_URL = "http://www.techhuddle.com/tests/battleships/v4test/index.php";
     private static final Logger LOGGER = LoggerFactory.getLogger(BattleShipPage.class);
+    private String beforeSubmitText = "";
 
     @FindBy(how = How.NAME, using = "coord")
     private WebElement coordinatesField;
@@ -27,8 +28,8 @@ public class BattleShipPage {
     @FindBy(how = How.TAG_NAME, using = "pre")
     private WebElement table;
 
-    By coordinatesLocator = By.xpath("//input[@type='submit']");
-    By tableLocator = By.tagName("pre");
+    @FindBy(how = How.XPATH, using = "//form[@name='input']")
+    private WebElement form;
 
     public BattleShipPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -40,44 +41,54 @@ public class BattleShipPage {
     }
 
     public void clickSubmitButton() {
-       action.clickButton(submitButton);
+        beforeSubmitText = getTableText();
+        action.clickButton(submitButton);
     }
 
     public void gotoPage() {
         action.gotoPage(PAGE_URL, "");
     }
 
-    private void sleep(int seconds) {
-        try {
-            LOGGER.info("Sleeping for:" + seconds + " seconds");
-            Thread.sleep(seconds * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public String getFormText() {
+        return action.getText(form);
     }
 
     public String getTableText() {
         return action.getText(table);
     }
 
+    public String getSubmitButtonValue() {
+        return action.getAttribute(submitButton, "name");
+    }
 
-    public void hitCoordinate(String coordinate){
+
+    public void hitCoordinate(String coordinate) {
         enterCoordinate(coordinate);
         clickSubmitButton();
+        wait(SLEEP_TIME);
         verifyMessage();
     }
 
+    private void wait(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void verifyMessage() {
-        String tableText = getTableText();
-        int previousHitCount = Counter.hitCount;
-        int previousMissCount = Counter.missCount;
+        Counter counter = new Counter(beforeSubmitText);
+        wait(SLEEP_TIME);
+        int previousHitCount = counter.getHitCount();
+        int previousMissCount = counter.getMissCount();
+        counter = new Counter(getTableText());
         LOGGER.info("Previous HIT Count:" + previousHitCount);
         LOGGER.info("Previous MISS Count:" + previousMissCount);
-        Counter.countAll(tableText);
-        if (Counter.missCount > previousMissCount) {
-            Assertions.assertThat(tableText).as("MISS").containsIgnoringCase("Miss");
+        if (counter.getMissCount() > previousMissCount) {
+            Assertions.assertThat(getTableText()).as("MISS").containsIgnoringCase("Miss");
         } else {
-            Assertions.assertThat(true).as("HIT/SUNK").isEqualTo(tableText.contains("Hit") || tableText.contains("Sunk"));
+            Assertions.assertThat(true).as("HIT/SUNK").isEqualTo(getTableText().contains("Hit") || getTableText().contains("Sunk"));
         }
     }
 }

@@ -94,6 +94,11 @@ public class PageAction {
         return element.getAttribute("value");
     }
 
+    public String getAttribute(WebElement element, String attribute) {
+        Validate.notNull(element, "Element should not be null");
+        return element.getAttribute(attribute);
+    }
+
     public List<String> getAllDropdownOptions(Select select) {
         List<String> options = new ArrayList<>();
         select.getOptions().forEach(option -> options.add(option.getText()));

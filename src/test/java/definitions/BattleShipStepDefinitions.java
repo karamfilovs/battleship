@@ -1,5 +1,6 @@
 package definitions;
 
+import cucumber.api.PendingException;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -36,6 +37,7 @@ public class BattleShipStepDefinitions {
 
     BattleShipPage battleShipPage;
     WebDriver driver;
+    Counter counter;
 
 
     private void startBrowser(String browser) {
@@ -59,7 +61,7 @@ public class BattleShipStepDefinitions {
 
     private void configureBrowser(String browser) {
         LOGGER.info("Starting browser:" + browser);
-        driver.manage().deleteAllCookies(); //delete cookies
+        //driver.manage().deleteAllCookies(); //delete cookies
         driver.manage().window().maximize(); //To maximize browser
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);   //Implicit wait
     }
@@ -67,7 +69,7 @@ public class BattleShipStepDefinitions {
 
     @Before
     public void before() {
-        startBrowser("firefox");
+        startBrowser("chrome");
     }
 
     @After
@@ -116,19 +118,24 @@ public class BattleShipStepDefinitions {
 
     @Then("^ships count should be:(\\d+)$")
     public void shipsCountShouldBe(int count) {
-        Counter.countAll(battleShipPage.getTableText());
-        Assertions.assertThat(Counter.hitCount).as("HIT COUNT").isEqualTo(count);
+        counter = new Counter(battleShipPage.getTableText());
+        Assertions.assertThat(counter.getHitCount()).as("HIT COUNT").isEqualTo(count);
     }
 
     @Then("^miss count should be:(\\d+)$")
     public void missCountShouldBe(int count) {
-        Counter.countAll(battleShipPage.getTableText());
-        Assertions.assertThat(Counter.missCount).as("MISS COUNT").isEqualTo(count);
+        counter = new Counter(battleShipPage.getTableText());
+        Assertions.assertThat(counter.getMissCount()).as("MISS COUNT").isEqualTo(count);
     }
 
-    @Then("^remain count should be:(\\d+)$")
-    public void remainCountShouldBe(int count) {
-        Counter.countAll(battleShipPage.getTableText());
-        Assertions.assertThat(Counter.remainCount).as("REMAIN COUNT").isEqualTo(count);
+
+    @And("^button label should be \"(.*)\"")
+    public void buttonLabelShouldContain(String label) {
+        Assertions.assertThat(battleShipPage.getSubmitButtonValue()).as("Submit Button").contains(label);
+    }
+
+    @And("^enter form should contain text \"(.*)\"")
+    public void formShouldContain(String text) {
+        Assertions.assertThat(battleShipPage.getFormText()).as("Submit Button").contains(text);
     }
 }
