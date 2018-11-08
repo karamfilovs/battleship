@@ -28,8 +28,8 @@ import java.util.concurrent.TimeUnit;
 public class BattleShipStepDefinitions {
     //Browser settings
     public static final Logger LOGGER = LoggerFactory.getLogger(BattleShipStepDefinitions.class);
-    private static final String chromeDriverLocation = "C:\\webdrivers\\chromedriver.exe";
-    private static final String firefoxDriverLocation = "C:\\webdrivers\\geckodriver.exe";
+    private static final String chromeDriverLocation = "src\\test\\java\\webdrivers\\chromedriver.exe";
+    private static final String firefoxDriverLocation = "src\\test\\java\\webdrivers\\geckodriver.exe";
     private static final String ieDriverLocation = "C:\\webdrivers\\IEDriverServer.exe";
     private static final String chromeProperty = "webdriver.chrome.driver";
     private static final String firefoxProperty = "webdriver.gecko.driver";

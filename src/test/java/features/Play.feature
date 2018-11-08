@@ -5,14 +5,6 @@ Feature: Battleships tests http://www.techhuddle.com/tests/battleships/v4test/in
 
 
   Scenario: Hit coordinate
-    When I enter coordinate:"A5"
-    And I press Submit button
-    Then message should be correct
-#    And enter form should contain text "Enter coordinates (row, col), e.g. A5" Bug here
-
-
-    @dev
-  Scenario: Hit coordinate
     When I hit multiple coordinates:
       | A1 | A2 | A3 | A4 | A5 | A6 | A7 | A8 | A9 |
       | B1 | B2 | B3 | B4 | B5 | B6 | B7 | B8 | B9 |
@@ -22,21 +14,31 @@ Feature: Battleships tests http://www.techhuddle.com/tests/battleships/v4test/in
       | F1 | C2 | C3 | C4 | C5 | C6 | C7 | C8 | C9 |
 
 
-  Scenario: Show battleships current status
+  Scenario: Can show game current status
     When I enter coordinate:"show"
     And I press Submit button
     Then ships count should be:13
     And miss count should be:0
 
 
-  Scenario: Reset battleships game
+  Scenario: Can RESET/SHOW game in sequence
+    When I enter coordinate:"reset"
+    And I press Submit button
+    Then ships count should be:0
+    And miss count should be:0
+    When I enter coordinate:"show"
+    Then ships count should be:13
+    And miss count should be:13
+
+
+  Scenario: Can reset game
     When I enter coordinate:"reset"
     And I press Submit button
     Then ships count should be:0
     And miss count should be:0
 
 
-  Scenario Outline: Test multiple resets and shows
+  Scenario Outline: Can RESET/SHOW in different sessions
     When I enter coordinate:"<command>"
     And I press Submit button
     Then ships count should be:<ships>
@@ -57,3 +59,14 @@ Feature: Battleships tests http://www.techhuddle.com/tests/battleships/v4test/in
       | show    | 13    | 0    |
 
 
+  Scenario: Hit coordinate
+    When I enter coordinate:"A5"
+    And I press Submit button
+    Then message should be correct
+    And enter form should contain text "coordinates"
+
+
+  Scenario: Miss count is correct
+    When I enter coordinate:"A1"
+    And I press Submit button
+    Then miss count should be:1
