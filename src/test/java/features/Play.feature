@@ -4,6 +4,7 @@ Feature: Battleships tests http://www.techhuddle.com/tests/battleships/v4test/in
     Given user is on BattleShips Page
 
 
+  @dev
   Scenario: Hit coordinate
     When I hit multiple coordinates:
       | A1 | A2 | A3 | A4 | A5 | A6 | A7 | A8 | A9 |
@@ -27,8 +28,49 @@ Feature: Battleships tests http://www.techhuddle.com/tests/battleships/v4test/in
     Then ships count should be:0
     And miss count should be:0
     When I enter coordinate:"show"
+    And I press Submit button
     Then ships count should be:13
-    And miss count should be:13
+    And miss count should be:0
+    When I enter coordinate:"reset"
+    And I press Submit button
+    Then ships count should be:0
+    And miss count should be:0
+    When I enter coordinate:"show"
+    And I press Submit button
+    Then ships count should be:13
+    And miss count should be:0
+    When I enter coordinate:"reset"
+    And I press Submit button
+    Then ships count should be:0
+    And miss count should be:0
+    When I enter coordinate:"show"
+    And I press Submit button
+    Then ships count should be:13
+    And miss count should be:0
+    When I enter coordinate:"reset"
+    And I press Submit button
+    Then ships count should be:0
+    And miss count should be:0
+    When I enter coordinate:"show"
+    And I press Submit button
+    Then ships count should be:13
+    And miss count should be:0
+    When I enter coordinate:"reset"
+    And I press Submit button
+    Then ships count should be:0
+    And miss count should be:0
+    When I enter coordinate:"show"
+    And I press Submit button
+    Then ships count should be:13
+    And miss count should be:0
+    When I enter coordinate:"reset"
+    And I press Submit button
+    Then ships count should be:0
+    And miss count should be:0
+    When I enter coordinate:"show"
+    And I press Submit button
+    Then ships count should be:13
+    And miss count should be:0
 
 
   Scenario: Can reset game
@@ -59,7 +101,7 @@ Feature: Battleships tests http://www.techhuddle.com/tests/battleships/v4test/in
       | show    | 13    | 0    |
 
 
-  Scenario: Hit coordinate
+  Scenario: Can hit coordinate
     When I enter coordinate:"A5"
     And I press Submit button
     Then message should be correct
@@ -69,4 +111,10 @@ Feature: Battleships tests http://www.techhuddle.com/tests/battleships/v4test/in
   Scenario: Miss count is correct
     When I enter coordinate:"A1"
     And I press Submit button
-    Then miss count should be:1
+    Then miss count should be:0
+
+
+  Scenario: Blank coordinates should lead to error message
+    When I enter coordinate:""
+    And I press Submit button
+    Then table should contain text "Error"

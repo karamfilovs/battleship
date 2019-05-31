@@ -10,6 +10,6 @@ import org.junit.runner.RunWith;
         tags = {"@dev", "~@ignore"} // All tests with ignored tag will be skipped
 )
 
-public class RunCukes {
+public class RunTest {
 
 }

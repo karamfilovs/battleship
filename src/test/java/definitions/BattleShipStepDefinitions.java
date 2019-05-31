@@ -79,7 +79,7 @@ public class BattleShipStepDefinitions {
                 TakesScreenshot screenshot = (TakesScreenshot) driver;
                 File src = screenshot.getScreenshotAs(OutputType.FILE); //capture screenshot
                 String fileName = scenario.getName() + ".png";
-                FileUtils.copyFile(src, new File("E:\\screenshots\\" + fileName)); //Image is stored here if test fails
+                FileUtils.copyFile(src, new File("target\\screenshots\\" + fileName)); //Image is stored here if test fails
                 LOGGER.info("Successfully captured a screenshot");
                 LOGGER.info("Stored image:" + fileName + " at:" + "E:\\screenshots\\");
             } catch (Exception e) {
@@ -108,6 +108,11 @@ public class BattleShipStepDefinitions {
     @And("^I press Submit button$")
     public void iPressSubmitButton() {
         battleShipPage.clickSubmitButton();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -137,5 +142,10 @@ public class BattleShipStepDefinitions {
     @And("^enter form should contain text \"(.*)\"")
     public void formShouldContain(String text) {
         Assertions.assertThat(battleShipPage.getFormText()).as("Submit Button").contains(text);
+    }
+
+    @Then("^table should contain text \"([^\"]*)\"$")
+    public void tableShouldContainText(String text) throws Throwable {
+        Assertions.assertThat(battleShipPage.getTableText()).as("Table Information").contains(text);
     }
 }

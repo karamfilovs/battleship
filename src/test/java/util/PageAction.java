@@ -42,10 +42,7 @@ public class PageAction {
 
     public String getText(WebElement element) {
         Validate.notNull(element, "Element should not be null");
-        String text = element.getText().trim();
-        LOGGER.info("Extracting text");
-        LOGGER.info("Text found is:" + text);
-        return text;
+        return element.getText().trim();
     }
 
     public boolean isVisible(WebElement element) {
@@ -116,35 +113,4 @@ public class PageAction {
         hyperlink.click();
     }
 
-    public void acceptAlert() {
-        try {
-            Alert alert = driver.switchTo().alert();
-            alert.accept(); //Handle unexpected alert on page load.
-            LOGGER.info("Accepting alert with text:" + alert.getText());
-        } catch (Exception e) {
-            LOGGER.info("Unexpected alert not present");
-        }
-    }
-
-    public String getAlertText() {
-        String alertText = null;
-        try {
-            Alert alert = driver.switchTo().alert();
-            alertText = alert.getText();
-            LOGGER.info("Getting text from alert:" + alertText);
-        } catch (Exception e) {
-            LOGGER.info("Unexpected alert not present");
-        }
-        return alertText;
-    }
-
-    public void dismissAlert() {
-        try {
-            Alert alert = driver.switchTo().alert();
-            LOGGER.info("Dismissing alert with text:" + alert.getText());
-            alert.dismiss(); //Handle unexpected alert on page load.
-        } catch (Exception e) {
-            LOGGER.info("Unexpected alert not present");
-        }
-    }
 }
