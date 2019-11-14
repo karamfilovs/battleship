@@ -66,7 +66,7 @@ public class BattleShipPage {
         enterCoordinate(coordinate);
         clickSubmitButton();
         wait(SLEEP_TIME);
-        verifyMessage();
+        //verifyMessage();
     }
 
     private void wait(int seconds) {

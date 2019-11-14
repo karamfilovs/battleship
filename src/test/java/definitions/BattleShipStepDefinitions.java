@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class BattleShipStepDefinitions {
     //Browser settings
     public static final Logger LOGGER = LoggerFactory.getLogger(BattleShipStepDefinitions.class);
-    private static final String chromeDriverLocation = "src\\test\\java\\webdrivers\\chromedriver.exe";
+    private static final String chromeDriverLocation = "src\\test\\java\\webdrivers\\chromedriver78.exe";
     private static final String firefoxDriverLocation = "src\\test\\java\\webdrivers\\geckodriver.exe";
     private static final String ieDriverLocation = "C:\\webdrivers\\IEDriverServer.exe";
     private static final String chromeProperty = "webdriver.chrome.driver";
@@ -147,5 +147,10 @@ public class BattleShipStepDefinitions {
     @Then("^table should contain text \"([^\"]*)\"$")
     public void tableShouldContainText(String text) throws Throwable {
         Assertions.assertThat(battleShipPage.getTableText()).as("Table Information").contains(text);
+    }
+
+    @And("^page url is equal to \"([^\"]*)\"$")
+    public void pageUrlIsEqualTo(String url) {
+        LOGGER.info("This is my demo step");
     }
 }
