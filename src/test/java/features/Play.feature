@@ -4,7 +4,7 @@ Feature: Battleships tests http://www.techhuddle.com/tests/battleships/v4test/in
     Given user is on BattleShips Page
 
 
-  @dev
+
   Scenario: Hit coordinate
     When I hit multiple coordinates:
       | A1 | A2 | A3 | A4 | A5 | A6 | A7 | A8 | A9 | A10 |
@@ -22,7 +22,7 @@ Feature: Battleships tests http://www.techhuddle.com/tests/battleships/v4test/in
   Scenario: Can show game status
     When I enter coordinate:"show"
     And I press Submit button
-    Then ships count should be:13
+    Then ships coordinates count should be:12
     And miss count should be:0
 
   Scenario: Cant hit invalid coordinate
@@ -39,64 +39,49 @@ Feature: Battleships tests http://www.techhuddle.com/tests/battleships/v4test/in
   Scenario: Can RESET/SHOW game in sequence
     When I enter coordinate:"reset"
     And I press Submit button
-    Then ships count should be:0
+    Then ships coordinates count should be:0
     And miss count should be:0
     When I enter coordinate:"show"
     And I press Submit button
-    Then ships count should be:13
+    Then ships coordinates count should be:13
     And miss count should be:0
     When I enter coordinate:"reset"
     And I press Submit button
-    Then ships count should be:0
+    Then ships coordinates count should be:0
     And miss count should be:0
     When I enter coordinate:"show"
     And I press Submit button
-    Then ships count should be:13
+    Then ships coordinates count should be:13
     And miss count should be:0
     When I enter coordinate:"reset"
     And I press Submit button
-    Then ships count should be:0
+    Then ships coordinates count should be:0
     And miss count should be:0
     When I enter coordinate:"show"
     And I press Submit button
-    Then ships count should be:13
+    Then ships coordinates count should be:13
     And miss count should be:0
     When I enter coordinate:"reset"
     And I press Submit button
-    Then ships count should be:0
+    Then ships coordinates count should be:0
     And miss count should be:0
     When I enter coordinate:"show"
     And I press Submit button
-    Then ships count should be:13
+    Then ships coordinates count should be:13
     And miss count should be:0
-    When I enter coordinate:"reset"
-    And I press Submit button
-    Then ships count should be:0
-    And miss count should be:0
-    When I enter coordinate:"show"
-    And I press Submit button
-    Then ships count should be:13
-    And miss count should be:0
-    When I enter coordinate:"reset"
-    And I press Submit button
-    Then ships count should be:0
-    And miss count should be:0
-    When I enter coordinate:"show"
-    And I press Submit button
-    Then ships count should be:13
-    And miss count should be:0
+
 
   Scenario: Can reset game
     When I enter coordinate:"reset"
     And I press Submit button
-    Then ships count should be:0
+    Then ships coordinates count should be:0
     And miss count should be:0
 
 
   Scenario Outline: Can RESET/SHOW game in different sessions
     When I enter coordinate:"<command>"
     And I press Submit button
-    Then ships count should be:<ships>
+    Then ships coordinates count should be:<ships>
     And miss count should be:<miss>
     Examples:
       | command | ships | miss |

@@ -23,7 +23,7 @@ public class PageAction {
 
     public void typeText(WebElement element, String text) {
         Validate.notNull(element, "Element should not be null");
-        LOGGER.error("Typing text:" + text);
+        LOGGER.info("Typing text:" + text);
         element.click();
         element.clear();
         element.sendKeys(text);

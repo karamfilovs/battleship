@@ -80,10 +80,10 @@ public class BattleShipStepDefinitions {
                 File src = screenshot.getScreenshotAs(OutputType.FILE); //capture screenshot
                 String fileName = scenario.getName() + ".png";
                 FileUtils.copyFile(src, new File("target\\screenshots\\" + fileName)); //Image is stored here if test fails
-                LOGGER.info("Successfully captured a screenshot");
-                LOGGER.info("Stored image:" + fileName + " at:" + "E:\\screenshots\\");
+                LOGGER.debug("Successfully captured a screenshot");
+                LOGGER.debug("Stored image:" + fileName + " at:" + "E:\\screenshots\\");
             } catch (Exception e) {
-                LOGGER.info("Exception while taking screenshot " + e.getMessage());
+                LOGGER.error("Exception while taking screenshot " + e.getMessage());
             }
         }
         driver.quit();
@@ -121,7 +121,7 @@ public class BattleShipStepDefinitions {
         battleShipPage.verifyMessage();
     }
 
-    @Then("^ships count should be:(\\d+)$")
+    @Then("^ships coordinates count should be:(\\d+)$")
     public void shipsCountShouldBe(int count) {
         counter = new Counter(battleShipPage.getTableText());
         Assertions.assertThat(counter.getHitCount()).as("HIT COUNT").isEqualTo(count);
