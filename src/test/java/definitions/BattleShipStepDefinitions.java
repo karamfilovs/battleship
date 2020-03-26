@@ -1,6 +1,5 @@
 package definitions;
 
-import cucumber.api.PendingException;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -16,7 +15,6 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pages.BattleShipPage;
@@ -28,19 +26,22 @@ import java.util.concurrent.TimeUnit;
 
 public class BattleShipStepDefinitions {
     //Browser settings
+    private static final String BROWSER = "chrome";
     public static final Logger LOGGER = LoggerFactory.getLogger(BattleShipStepDefinitions.class);
 
-    BattleShipPage battleShipPage;
-    WebDriver driver;
-    Counter counter;
+    private BattleShipPage battleShipPage;
+    private WebDriver driver;
+    private Counter counter;
 
 
     private void startBrowser(String browser) {
         if (browser.equalsIgnoreCase("firefox")) {
+            WebDriverManager.firefoxdriver().setup();
             driver = new FirefoxDriver();
             configureBrowser(browser);
         }
         if (browser.equalsIgnoreCase("chrome")) {
+            WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver();
             configureBrowser(browser);
         }
@@ -48,25 +49,16 @@ public class BattleShipStepDefinitions {
     }
 
     private void configureBrowser(String browser) {
-        LOGGER.info("Starting browser:" + browser);
+        LOGGER.info("Starting browser:" + browser.toUpperCase());
         driver.manage().deleteAllCookies(); //delete cookies
         driver.manage().window().maximize(); //To maximize browser
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);   //Implicit wait
+        driver.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);   //Implicit wait
     }
 
 
     @Before
     public void before() {
-        WebDriverManager.chromedriver().setup();
-        startBrowser("chrome");
-    }
-
-    private boolean isChrome(){
-        return System.getProperty("browser").equalsIgnoreCase("chrome");
-    }
-
-    private boolean isFirefox(){
-        return System.getProperty("browser").equalsIgnoreCase("firefox");
+        startBrowser(BROWSER);
     }
 
 

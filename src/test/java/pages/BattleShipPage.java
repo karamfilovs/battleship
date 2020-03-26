@@ -12,8 +12,7 @@ import org.slf4j.LoggerFactory;
 import util.PageAction;
 
 
-public class BattleShipPage {
-    private PageAction action;
+public class BattleShipPage extends BasePage {
     private static final int SLEEP_TIME = 0;
     private static final String PAGE_URL = "http://www.techhuddle.com/tests/battleships/v4test/index.php";
     private static final Logger LOGGER = LoggerFactory.getLogger(BattleShipPage.class);
@@ -32,33 +31,33 @@ public class BattleShipPage {
     private WebElement form;
 
     public BattleShipPage(WebDriver driver) {
+        super(driver);
         PageFactory.initElements(driver, this);
-        action = new PageAction(driver);
     }
 
     public void enterCoordinate(String coordinate) {
-        action.typeText(coordinatesField, coordinate);
+        typeText(coordinatesField, coordinate);
     }
 
     public void clickSubmitButton() {
         beforeSubmitText = getTableText();
-        action.clickButton(submitButton);
+        clickButton(submitButton);
     }
 
     public void gotoPage() {
-        action.gotoPage(PAGE_URL, "");
+        gotoPage(PAGE_URL, "");
     }
 
     public String getFormText() {
-        return action.getText(form);
+        return getText(form);
     }
 
     public String getTableText() {
-        return action.getText(table);
+        return getText(table);
     }
 
     public String getSubmitButtonValue() {
-        return action.getAttribute(submitButton, "name");
+        return getAttribute(submitButton, "name");
     }
 
 
@@ -73,7 +72,7 @@ public class BattleShipPage {
         try {
             Thread.sleep(seconds * 1000); //Dummy sleep to observe reply easier
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.error("Something bad happened");
         }
     }
 
