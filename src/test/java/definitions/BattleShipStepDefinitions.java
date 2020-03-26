@@ -8,6 +8,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
 import org.fest.assertions.Assertions;
 import org.openqa.selenium.OutputType;
@@ -28,12 +29,6 @@ import java.util.concurrent.TimeUnit;
 public class BattleShipStepDefinitions {
     //Browser settings
     public static final Logger LOGGER = LoggerFactory.getLogger(BattleShipStepDefinitions.class);
-    private static final String chromeDriverLocation = "src\\test\\java\\webdrivers\\chromedriver78.exe";
-    private static final String firefoxDriverLocation = "src\\test\\java\\webdrivers\\geckodriver.exe";
-    private static final String ieDriverLocation = "C:\\webdrivers\\IEDriverServer.exe";
-    private static final String chromeProperty = "webdriver.chrome.driver";
-    private static final String firefoxProperty = "webdriver.gecko.driver";
-    private static final String ieProperty = "webdriver.ie.driver";
 
     BattleShipPage battleShipPage;
     WebDriver driver;
@@ -42,18 +37,11 @@ public class BattleShipStepDefinitions {
 
     private void startBrowser(String browser) {
         if (browser.equalsIgnoreCase("firefox")) {
-            System.setProperty(firefoxProperty, firefoxDriverLocation);
             driver = new FirefoxDriver();
             configureBrowser(browser);
         }
         if (browser.equalsIgnoreCase("chrome")) {
-            System.setProperty(chromeProperty, chromeDriverLocation);
             driver = new ChromeDriver();
-            configureBrowser(browser);
-        }
-        if (browser.equalsIgnoreCase("ie")) {
-            System.setProperty(ieProperty, ieDriverLocation);
-            driver = new InternetExplorerDriver();
             configureBrowser(browser);
         }
 
@@ -69,8 +57,18 @@ public class BattleShipStepDefinitions {
 
     @Before
     public void before() {
+        WebDriverManager.chromedriver().setup();
         startBrowser("chrome");
-    } //Current browser in use
+    }
+
+    private boolean isChrome(){
+        return System.getProperty("browser").equalsIgnoreCase("chrome");
+    }
+
+    private boolean isFirefox(){
+        return System.getProperty("browser").equalsIgnoreCase("firefox");
+    }
+
 
     @After
     public void after(Scenario scenario) {

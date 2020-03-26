@@ -3,8 +3,6 @@ Feature: Battleships tests http://www.techhuddle.com/tests/battleships/v4test/in
   Background: Page is loaded
     Given user is on BattleShips Page
 
-
-
   Scenario: Hit coordinate
     When I hit multiple coordinates:
       | A1 | A2 | A3 | A4 | A5 | A6 | A7 | A8 | A9 | A10 |
@@ -22,7 +20,7 @@ Feature: Battleships tests http://www.techhuddle.com/tests/battleships/v4test/in
   Scenario: Can show game status
     When I enter coordinate:"show"
     And I press Submit button
-    Then ships coordinates count should be:12
+    Then ships coordinates count should be:13
     And miss count should be:0
 
   Scenario: Cant hit invalid coordinate
