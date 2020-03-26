@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import util.PageAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,7 @@ public class BasePage {
     public static final Logger LOGGER = LoggerFactory.getLogger(BasePage.class);
     protected WebDriver driver;
 
-    public BasePage (WebDriver driver){
+    public BasePage(WebDriver driver) {
         this.driver = driver;
     }
 
@@ -55,7 +54,6 @@ public class BasePage {
         LOGGER.info("Clearing element:" + element.getText());
         element.clear();
     }
-
 
 
     public String getAttribute(WebElement element, String attribute) {
