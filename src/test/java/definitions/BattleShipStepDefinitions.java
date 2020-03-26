@@ -38,18 +38,17 @@ public class BattleShipStepDefinitions {
         if (browser.equalsIgnoreCase("firefox")) {
             WebDriverManager.firefoxdriver().setup();
             driver = new FirefoxDriver();
-            configureBrowser(browser);
+            configureBrowser();
         }
         if (browser.equalsIgnoreCase("chrome")) {
             WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver();
-            configureBrowser(browser);
+            configureBrowser();
         }
 
     }
 
-    private void configureBrowser(String browser) {
-        LOGGER.info("Starting browser:" + browser.toUpperCase());
+    private void configureBrowser() {
         driver.manage().deleteAllCookies(); //delete cookies
         driver.manage().window().maximize(); //To maximize browser
         driver.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);   //Implicit wait
